@@ -1,7 +1,8 @@
 const User = require('../models/user');
 
 exports.getUsers = (req,res,next)=>{
-    User.findAll()
+   
+    User.findById(userId)
      .then((result)=>{
         res.json(result);
      })
@@ -14,11 +15,8 @@ exports.postUsers = (req,res,next)=>{
     const name = req.body.name;
     const email = req.body.email;
     const address = req.body.address;
-    User.create({
-      name: name,
-      email : email,
-      address : address,
-    })
+    const user = new User(name,email,address)
+    user.save()
       .then((result)=>{
          res.json(result)
       })

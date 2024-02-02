@@ -20,20 +20,24 @@ app.set('views', 'views');
 
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
-// const userRoutes = require('./routes/user');
+const userRoutes = require('./routes/user');
 // const expenseRouter = require('./routes/expense');
 
-
+const User = require('./models/user')
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use((req,res,next)=>{
-  // Newuser.findOne({where :{id :1}})
-  //   .then((user)=>{
-  //       req.user = user;
-        next();
-    // })
+      User.getUserById("65bd21d1e693b14cc69ac262")
+         .then((user)=>{
+          req.user = user
+          console.log(res)
+          next()
+         })
+         .catch((error)=>{
+          console.log(error)
+         })
 })
 
 app.use('/admin', adminRoutes);
