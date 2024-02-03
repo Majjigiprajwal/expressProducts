@@ -56,6 +56,29 @@ class User {
                 console.log(error)
                })  
         }
+
+        getCart(){
+            const db = getDb()
+            const productIds = this.cart.items.map((i)=>{
+              return i.productId
+            })
+            return db.collection('products').find({_id : {$in : productIds}}).toArray()
+               .then((products)=>{
+                 return products.map((pro)=>{
+                     return {...pro,quantity : this.cart.items.find((i)=>{
+                      return i.productId.toString() === pro._id.toString()
+                     }).quantity
+                    }
+                 })
+               })
+        }
+
+        deleteFromCart(prodId){
+                const updatedCart = this.cart.items.filter((prod)=>   prodId.toString() !== prod.productId.toString())
+                const db = getDb()
+                return  db.collection('users').updateOne({_id :new  ObjectId(this._id)},{$set : {cart : {items :updatedCart}}})
+
+        }
 }
 
 module.exports = User;
