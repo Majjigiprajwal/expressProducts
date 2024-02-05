@@ -54,6 +54,19 @@ userSchema.methods.addToCart = function(product) {
     return this.save()
   }
 
+
+  userSchema.methods.addOrder = function(){
+          const order = this.cart.items
+          this.cart.items = []
+          return this.save()
+  }
+
+  userSchema.methods.clearCart = function() {
+    this.cart = { items: [] };
+    return this.save();
+  };
+  
+
 module.exports = mongoose.model('User', userSchema);
 
 
