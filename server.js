@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use((req,res,next)=>{
-      User.findById('65bd21d1e693b14cc69ac262')
+      User.findById('65c0dab2f9e40c596dffeaf4')
          .then((user)=>{
           req.user = user
           console.log(res)
