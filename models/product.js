@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const User = require('../models/user')
 const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
@@ -18,6 +18,11 @@ const productSchema = new Schema({
   imageUrl: {
     type: String,
     required: true
+  },
+  userId :{
+    type: Schema.Types.ObjectId,
+    ref : 'User',
+    required : true
   }
 });
 

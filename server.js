@@ -29,17 +29,17 @@ const User = require('./models/user')
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
-// app.use((req,res,next)=>{
-//       User.getUserById('65bd21d1e693b14cc69ac262')
-//          .then((user)=>{
-//           req.user = new User(user.name,user.email,user.cart,user._id)
-//           console.log(res)
-//           next()
-//          })
-//          .catch((error)=>{
-//           console.log(error)
-//          })
-// })
+app.use((req,res,next)=>{
+      User.findById('65bd21d1e693b14cc69ac262')
+         .then((user)=>{
+          req.user = user
+          console.log(res)
+          next()
+         })
+         .catch((error)=>{
+          console.log(error)
+         })
+})
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
@@ -53,6 +53,18 @@ mongoose
     'mongodb+srv://prajwalmajjigi:yHqFHUAjG6am9J6E@cluster0.ijwck5e.mongodb.net/shop?retryWrites=true&w=majority'
   )
   .then(result => {
+   User.findOne().then(user => {
+      if (!user) {
+        const user = new User({
+          name: 'prajwal',
+          email: 'prajwal.com',
+          cart: {
+            items: []
+          }
+        });
+        user.save();
+      }
+    });
     app.listen(3000);
   })
   .catch(err => {
